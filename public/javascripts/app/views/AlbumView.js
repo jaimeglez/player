@@ -12,7 +12,7 @@ Player.Views.AlbumView = Backbone.View.extend({
   },
 
   addAlbum: function(event){
-    Player.player.add(this.model);
+    Player.player.playlist.add(this.model);
   },
 
   render: function(){
