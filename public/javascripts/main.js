@@ -4,7 +4,7 @@ var Player = {
   Views: {},
 
   initialize: function(){
-    var router = new Player.Router();
+    this.router = new Player.Router();
     Backbone.history.start();
   }
 };

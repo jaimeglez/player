@@ -6,7 +6,7 @@ Player.Router = Backbone.Router.extend({
 
 
   initialize: function(){
-    Player.player = new Player.Models.Player();
+    this.player = new Player.Models.Player();
   },
 
   home: function(){
@@ -16,7 +16,7 @@ Player.Router = Backbone.Router.extend({
 
     var playlistView = new Player.Views.PlayerlistView({
       el: '.playlist',
-      collection: Player.player.playlist
+      collection: this.player.playlist
     });
 
   }

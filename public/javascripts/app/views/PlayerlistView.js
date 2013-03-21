@@ -1,13 +1,23 @@
 Player.Views.PlayerlistView = Backbone.View.extend({
 
   events: {
-    'click .play' : 'play',
-    'click .pause' : 'pause'
+    'click .play'  : 'play',
+    'click .pause' : 'stop',
+    'click .next'  : 'next',
+    'click .prev'  : 'prev'
   },
 
   initialize: function(){
     this.collection.on('add', this.showAlbum, this);
+    Player.router.player.on('change:state', this.update, this);
+    Player.router.player.on('change:currentTrack', this.play, this);
+
     this.$('.pause').hide();
+  },
+
+  update: function(){
+    var method = this[Player.router.player.get('state')];
+    method.call(this);
   },
 
   showAlbum: function(model, collection){
@@ -21,43 +31,47 @@ Player.Views.PlayerlistView = Backbone.View.extend({
   audio: new Audio(),
 
   play: function(){
+    var ready = Player.router.player.play();
+    this.$('.current').removeClass('current');
 
-    var albums = this.collection.length;
-    if(albums > 0 ){
+    if(ready){
+      var currentAlbum = Player.router.player.get('currentAlbum');
+      var currentTrack = Player.router.player.get('currentTrack');
 
-      _.each(this.$('.album'), function(album, index){
-        if(index === Player.player.get('currentAlbum')){
-          $(album).addClass('current');
-        }
+      var $album = this.$('.album:eq('+currentAlbum+')');
+      $album.addClass('current');
 
-      }, this);
+      var $track = this.$('.current li:eq('+currentTrack+')');
+      $track.addClass('current');
 
-      _.each(this.$('.tracks li'), function(track, index){
+      var tracks = this.collection.at(currentAlbum).get('tracks');
 
-        if(index === Player.player.get('currentTrack')){
-          var song = this.collection.at(index);
-          var src  = song.get('tracks')[index].url;
-          $(track).addClass('current');
+      this.audio.src = tracks[currentTrack].url;
+      this.audio.play();
 
-
-          if(this.audio.src === ''){
-            this.audio.src = src;
-          }
-
-          this.audio.play();
-
-          this.$('.play').hide();
-          this.$('.pause').show();
-        }
-
-      }, this);
-
+      this.$('.play').hide();
+      this.$('.pause').show();
+    }else{
+      console.warn('Add an album');
     }
+
   },
 
-  pause: function(){
+  stop: function(){
+    Player.router.player.pause();
+
     this.audio.pause();
     this.$('.play').show();
     this.$('.pause').hide();
+  },
+
+  next: function(){
+    Player.router.player.next();
+    this.play();
+  },
+
+  prev: function(){
+    Player.router.player.prev();
+    this.play();
   }
 });

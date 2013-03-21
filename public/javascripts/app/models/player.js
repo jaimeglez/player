@@ -10,7 +10,25 @@ Player.Models.Player = Backbone.Model.extend({
   },
 
   play: function(){
-    var Album = this.get('currentAlbum');
-    console.log(Album);
+    return this.playlist.length > 0 ? !!(this.set({state: 'play'})) : false;
+  },
+
+  pause: function(){
+    this.set({state: 'stop'});
+  },
+
+  next: function(){
+    var currentTrack = this.get('currentTrack') + 1;
+    this.set({
+      currentTrack: currentTrack
+    });
+  },
+
+  prev: function(){
+    var currentTrack = this.get('currentTrack') - 1;
+    this.set({
+      currentTrack: currentTrack
+    });
   }
+
 });
