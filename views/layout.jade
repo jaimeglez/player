@@ -4,18 +4,6 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/fancy.css')
 
-    script(src='/javascripts/libs/jquery.js')
-    script(src='/javascripts/libs/underscore.js')
-    script(src='/javascripts/libs/backbone.js')
-
-    script(src='/javascripts/main.js')
-    script(src='/javascripts/router.js')
-
-    script(src='/javascripts/app/models/Album.js')
-    script(src='/javascripts/app/models/player.js')
-    script(src='/javascripts/app/collections/Albums.js')
-    script(src='/javascripts/app/views/AlbumView.js')
-    script(src='/javascripts/app/views/LibraryView.js')
-    script(src='/javascripts/app/views/PlayerlistView.js')
+    script(data-main='/javascripts/main.js', src='/javascripts/libs/require.js')
   body
     block content

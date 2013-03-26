@@ -1,24 +1,42 @@
-Player.Router = Backbone.Router.extend({
+define(['Backbone', 
+       'app/models/player',
+       'app/views/LibraryView',
+       'app/views/PlayerlistView'
+], function(Backbone, Player, LibraryView, PlayerlistView){
 
-  routes: {
-    '' : 'home'
-  },
+  var Router = Backbone.Router.extend({
+
+    routes: {
+      '' : 'home'
+    },
 
 
-  initialize: function(){
-    this.player = new Player.Models.Player();
-  },
+    initialize: function(){
+      this.player = new Player();
+    },
 
-  home: function(){
-    var libraryView = new Player.Views.LibraryView({
-      el: '.library'
-    });
+    home: function(){
+      var libraryView = new LibraryView({
+        el: '.library',
+        player: this.player 
+      });
 
-    var playlistView = new Player.Views.PlayerlistView({
-      el: '.playlist',
-      collection: this.player.playlist
-    });
+      var playlistView = new PlayerlistView({
+        el: '.playlist',
+        collection: this.player.playlist,
+        model: this.player
+      });
 
-  }
+    }
+
+  });
+
+  return{
+    initialize: function(){
+      var router = new Router();
+      Backbone.history.start(true);
+    }
+  };
 
 });
+

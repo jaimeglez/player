@@ -1,22 +1,26 @@
-Player.Views.AlbumView = Backbone.View.extend({
+define(['Backbone'], function(){
+  var AlbumView = Backbone.View.extend({
 
-  className: 'album',
+    className: 'album',
 
-  events: {
-    'click .add' : 'addAlbum'
-  },
+    events: {
+      'click .add' : 'addAlbum'
+    },
 
-  initialize: function(){
-    this.template = _.template($('#album-template').html());
-    this.render();
-  },
+    initialize: function(){
+      this.template = _.template($('#album-template').html());
+      this.render();
+    },
 
-  addAlbum: function(event){
-    Player.router.player.playlist.add(this.model);
-  },
+    addAlbum: function(event){
+      this.options.player.playlist.add(this.model);
+    },
 
-  render: function(){
-    this.$el.html(this.template(this.model.toJSON()));
-  }
+    render: function(){
+      this.$el.html(this.template(this.model.toJSON()));
+    }
 
+  });
+
+  return AlbumView;
 });

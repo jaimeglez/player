@@ -1,15 +1,22 @@
-var Player = {
-  Models: {},
-  Collections: {},
-  Views: {},
+requirejs.config({
+  paths: {
+    jQuery: 'libs/jquery.loader',
+    Underscore: 'libs/underscore.loader',
+    Backbone: 'libs/backbone.loader'
+  },
 
-  initialize: function(){
-    this.router = new Player.Router();
-    Backbone.history.start();
+  shim: {
+    'Backbone': {
+      deps: ['jQuery', 'Underscore']
+    }
   }
-};
 
+});
 
-$(function(){
-  Player.initialize();
+define(['jQuery' ,'router'], function($, router){
+
+  $(function(){
+    router.initialize();
+  });
+
 });

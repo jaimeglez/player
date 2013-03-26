@@ -1,7 +1,12 @@
-Player.Models.Album = Backbone.Model.extend({
-  url: 'album',
+define(['Backbone'], function(Backbone){
 
-  getTitle: function(){
-    console.log('Title: ', this.get('title'));
-  }
+  var Album = Backbone.Model.extend({
+    url: 'album',
+
+    getTitle: function(){
+      console.log('Title: ', this.get('title'));
+    }
+  });
+
+  return Album;
 });
